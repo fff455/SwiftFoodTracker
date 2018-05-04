@@ -31,9 +31,13 @@ class MealViewController: UIViewController,UITextFieldDelegate,
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         nameTextField.delegate = self
+        nameTextField.tag = 1
         hourButton.delegate = self
+        hourButton.tag = 2
         minuteButton.delegate = self
+        minuteButton.tag = 2
         priceTextField.delegate = self
+        priceTextField.tag = 2
         // Set up views if editing an existing Meal.
         if let meal = meal {
             navigationItem.title = meal.name
@@ -65,7 +69,10 @@ class MealViewController: UIViewController,UITextFieldDelegate,
 
     func textFieldDidEndEditing(_ textField: UITextField) {
         updateSaveButtonState()
-        navigationItem.title = textField.text
+        if(textField.tag == 1){
+            navigationItem.title = textField.text
+        }
+        
     }
     
     //MARK: Navigation
@@ -145,8 +152,8 @@ class MealViewController: UIViewController,UITextFieldDelegate,
         // Disable the Save button if the text field is empty.
         let text = nameTextField.text ?? ""
         let hourEnable = hourButton.text ?? ""
-        var minuteEnable = minuteButton.text ?? "60"
-        if(Int(minuteEnable)! > 59){
+        var minuteEnable = minuteButton.text ?? ""
+        if(minuteEnable.isEmpty || Int(minuteEnable)! > 59){
             minuteEnable = ""
         }
         var priceEnable = priceTextField.text ?? ""
